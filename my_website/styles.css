@@ -1,0 +1,88 @@
+.body {
+	background: linear-gradient(-90deg, white, silver);
+}
+.centereddiv {
+	width: auto;
+	height: 50px;
+	margin: auto;
+	text-align: center;
+}
+
+.homebar {
+	display: inline-block;
+	width: 10%;
+	height: 50px;
+	#margin: auto;
+	margin-right: 0px;
+	margin-left: auto;
+	background-color: silver;
+	background: linear-gradient(to right, rgba(100, 100, 100, 0.8) , rgba(30, 30, 30, 0.25));
+	border-radius: 10px 0px 0px 10px;
+	text-align: center;
+	font-family: "open_sanslight";
+	font-size: 30px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	vertical-align: bottom;
+}
+
+.titlebar {
+	display: inline-block;
+	width: 80%;
+	height: 50px;
+	#margin: auto;
+	margin-right: auto;
+	margin-left: 0px;
+	background-color: silver;
+	background: linear-gradient(to right, rgba(100, 100, 100, 0.8) , rgba(30, 30, 30, 0.25));
+	border-radius: 0px 10px 10px 0px;
+	text-align: center;
+	font-family: "open_sanslight";
+	font-size: 30px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	vertical-align: bottom;
+}
+
+.optiondiv {
+	display: inline-block;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-right: auto;
+	margin-left: auto;
+	height: 100%;
+	width: auto;
+}
+
+.optiondiv:hover {
+	background-color: rgba(153, 0, 0, 0.5);
+}
+
+.optiondiv:active {
+	background-color: rgba(153, 0, 0, 0.8);
+}
+
+.titlelink {
+	text-decoration: none;
+	color: white;
+}
+
+.contentbox {
+	width: 90%;
+	height: auto;
+	margin: auto;
+	background-color: silver;
+	background: linear-gradient(to right, rgba(100, 100, 100, 0.8) , rgba(30, 30, 30, 0.25));
+	border-radius: 10px;
+	text-align: center;
+	font-family: "open_sanslight";
+}
+
+.titlep {
+	font-size: 35px;
+	color: white;
+}
+.descp {
+	font-size: 25px;
+	color: white;
+}
