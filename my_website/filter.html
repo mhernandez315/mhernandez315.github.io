@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="styles.css"/>
+	<link rel="stylesheet" type="text/css" href="fonts/stylesheet.css"/>
+	<link rel="stylesheet" type="text/css" href="solarized-dark.css"/>
+	<script src="scripts/rainbow-custom.min.js"></script>
+    <title>Ⓡommunist Filter</title>
+  </head>
+  <body class="body">
+	<div class="centereddiv">
+		<div class="homebar">
+			<a href="index.html" class="titlelink">
+				<img src="images/better-home.png" height="50">
+			</a>
+		</div>
+		<div class="titlebar">
+			<div class="optiondiv">
+				<a href="portfolio.html" class="titlelink">Portfolio</a>
+			</div>
+			<div class ="lastoptiondiv">
+				<a href="about.html" class="titlelink">About</a>
+			</div>
+		</div>
+	</div>
+	<div class="contentbox">
+		<p class="titlep">Ⓡommunist Filter</p>
+		<p class="descp">Turn almost any image into Ⓡommunist propoganda!*</p>
+		<div class="imagebox">
+			<img src="images/filter-none.png" width="100%">
+			<p class="descp">No Filter</p>
+			</br>
+		</div>
+		<div class="imagebox">
+			<img src="images/filter-1.png" width="100%">
+			<p class="descp">modified_image = filter_image(original_image, False, True)</p>
+			</br>
+		</div>
+		<div class="imagebox">
+			<img src="images/filter-2.png" width="100%">
+			<p class="descp">modified_image = filter_image(original_image, True, True)</p>
+			</br>
+		</div>
+		<div class="imagebox">
+			<img src="images/filter-3.png" width="100%">
+			<p class="descp">modified_image = filter_image(original_image, False, False)</p>
+			</br>
+		</div>
+		</br>
+	</div>
+	</br>
+	<div class="contentboxnocenter">
+		<p class="titlep" style="text-align: center">Code</p>
+		<pre>
+			<code data-language="python">
+				# -*- coding: utf-8 -*-
+				# UTF8 is necessary to support the Ⓡ
+				import PIL
+				import os.path  
+				import PIL.ImageDraw
+				import PIL.ImageEnhance
+				
+				def get_image(input_filename):
+					directory = os.getcwd()
+					constructed_filename = os.path.join(directory, input_filename)
+					print("Ⓡommunists will try to take control of the specified file: " + constructed_filename)
+					try:
+						# Attempt To Open The Specified Image
+						image = PIL.Image.open(constructed_filename)
+					except IOError:
+						# This Section Runs If The Program Had An Error Accessing The File (Doesn't Exist or Insufficient Permissions)
+						print("Ⓡommunists have failed to access: " + constructed_filename)
+						pass
+					return image
+					
+				def filter_image(original_image, left_corner, enable_saturation):
+					
+					# Make Original Image Object Support Opacity
+					original_image = original_image.convert("RGBA")
+					
+					# Increase Saturation of Original
+					if enable_saturation:
+						converter = PIL.ImageEnhance.Color(original_image)
+						original_image = converter.enhance(2.0)
+					
+					# This Method Requires R-Text-Color.png and earth.png
+					symbol_image = get_image("R-Text-Color.png")
+					symbol_image = symbol_image.convert("RGBA")
+					background_image = get_image("earth.png")
+					background_image = background_image.convert("RGBA")
+					
+					# Useful Variables For Later Use
+					width, height = original_image.size
+					
+					# Calculate Bottom 25% of Height
+					destination_height = height - (height/4)
+					
+					# Draw Transparent Rectangle For Symbol
+					draw_image = PIL.Image.new('RGBA', original_image.size, (0,0,0,0))
+					draw = PIL.ImageDraw.Draw(draw_image)
+					draw.rectangle(((0, destination_height), (width, height)), fill=(255,0,0,125))
+					
+					# Determine New Size Of Symbol Image (Want To Resize Height But Maintain Aspect Ratio)
+					symbol_width, symbol_height = symbol_image.size
+					new_symbol_height = int(height/4)
+					new_symbol_width = int(symbol_width * new_symbol_height / symbol_height)
+					new_symbol_size = new_symbol_width, new_symbol_height
+					
+					# Determine New Size Of Background Image (Want To Resize Height But Maintain Aspect Ratio)
+					background_width, background_height = background_image.size
+					new_background_height = height
+					new_background_width = int(background_width * new_background_height / background_height)
+					new_background_size = new_background_width, new_background_height
+					
+					# Resize Symbol/Background To Fit Original Image
+					symbol_image.thumbnail(new_symbol_size, PIL.Image.ANTIALIAS)
+					background_image.resize(new_background_size, PIL.Image.ANTIALIAS)
+					
+					# Add Transparency To Original Image (25% Transparent Except For Bottom 25% of Image Which Is 75%)
+					for y in range(0, height):
+						for x in range(0, width):
+							r,g,b,a = original_image.getpixel((x,y))
+							if y < destination_height:
+								original_image.putpixel((x,y), (r,g,b,220))
+							else:
+								original_image.putpixel((x,y), (r,g,b,128))
+					
+					# Make the new image, starting with all transparent
+					new_image = PIL.Image.new('RGBA', original_image.size, (0,0,0,0))
+					new_image.paste(background_image, (0, 0), background_image)
+					new_image.paste(original_image, (0, 0), original_image)
+					new_image = PIL.Image.alpha_composite(new_image, draw_image)
+					if left_corner:
+						new_image.paste(symbol_image, (0, destination_height), symbol_image)
+					else:
+						new_image.paste(symbol_image, (width-new_symbol_width, destination_height), symbol_image)
+					
+					return new_image
+						
+				def main():
+					# Ask The User Which File to Filter
+					print("Input Image Filename: ")
+					input_filename = raw_input()
+					# Use The Specified Filename to Create a PIL Image Object
+					original_image = get_image(input_filename)
+					# Filter the Image Object
+					modified_image = filter_image(original_image, True, False)
+					# Ask The User Where to Save The Modified Image
+					print("Output Image Filename: ")
+					output_filename = raw_input()
+					# Save The Modified Image Object to File
+					modified_image.save(output_filename)
+					
+				if __name__ == "__main__":
+					main()
+			</code>
+		</pre>
+		</br>
+		<a href="files/rrrrrr.zip" class="blocklinkblack" style="text-align: center">
+			<div style="display: inline-block; width: 75%; height: 100%; border-radius: 30px; background-color: rgba(255, 0, 40, 0.5);">
+				<p class="titlep">Get The Code (+ Necessary Files)</p>
+			</div>
+		</a>
+		</br>
+	</div>
+  </body>
+</html>

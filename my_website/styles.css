@@ -113,6 +113,16 @@
 	font-family: "open_sanslight";
 }
 
+.contentboxnocenter {
+	width: 90%;
+	height: auto;
+	margin: auto;
+	background-color: silver;
+	background: linear-gradient(to bottom, rgba(100, 100, 100, 0.9) , rgba(30, 30, 30, 0.75));
+	border-radius: 10px;
+	font-family: "open_sanslight";
+}
+
 .titlep {
 	font-size: 35px;
 	color: white;
@@ -171,4 +181,15 @@
 	width: 100%;
 	height: 100%;
 	margin: 0px;
+}
+
+.imagebox {
+	border-style: double none none none;
+	border-color: white;
+	width: 90%;
+	height: auto;
+	margin: auto;
+	background-color: rgba(200, 200, 200, 0.5);
+	text-align: center;
+	font-family: "open_sanslight";
 }
